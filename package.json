@@ -1,0 +1,40 @@
+{
+  "name": "algorithms-illuminated-1",
+  "version": "1.0.0",
+  "main": "Chapter1/Chapter1.Review.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "babel-jest": "^23.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "bignumber.js": "7.2.1",
+    "jest": "^23.0.0"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src/frontend",
+      "src/shared"
+    ]
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0"
+  }
+}
