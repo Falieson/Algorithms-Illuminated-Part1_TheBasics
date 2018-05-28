@@ -1,20 +1,85 @@
 /** Algorithms Illuminated
   * Chapter 1: Problem Set 1.7
   * Karatsuba Multiplication
-  * (by haocong)[https://gist.github.com/haocong/c2d9b2169d28eb15a94d]
   * @param  {Number} x - first number
   * @param  {Number} y - second number
   * @return {Number} Multiply of x and y
 **/
- 
-export function karatsubaMulti1(x, y) {
-  let n = Math.min(('' + x).length, ('' + y).length)
 
+import {BigNumber} from 'bignumber.js';
+
+/** karatsubaMultiply
+ * (by falieson)[https://github.com/falieson] based on haocong
+  @param x — - first number
+  @param y — - second number
+  @return — Multiply of x and y
+***/
+let i = 0
+export function karatsubaMultiply(_x, _y) {
+  // console.log(i, `: Starting karatsubaMultiply(${_x}, ${_y})`)
+  i++
+  
+  if(_x === 0|| _y === 0) return 0
+
+
+  if(typeof(_x) === 'number' || typeof(_y) === 'number') {
+    // If passed numbers instead of strings check for unsafe integers
+    if( !Number.isSafeInteger(_x)
+      || !Number.isSafeInteger(_y)
+      || !Number.isSafeInteger(_x * _y)
+    ) throw new Error('Pass large number parameters as strings, re: "MAX_SAFE_INTEGER"')
+  }
+  
+  const x = new BigNumber(_x)
+  const y = new BigNumber(_y)
+  const n = Math.min(('' + _x).length, ('' + _y).length)
+
+  if(n == 1) { // tiny multiply
+    // console.log('tiny return: ', {_x, _y})
+    return x*y    
+  }
+
+  const tenpowhalfn = new BigNumber(10).pow(Math.floor(n/2))    //  Math.pow(10, parseInt(n / 2))
+  const tenpown = new BigNumber(10).pow(2 * Math.floor(n/2))    // Math.pow(10, 2 * parseInt(n / 2))
+
+  const a = x.idiv(tenpowhalfn)             // parseInt(x / tenpowhalfn)
+  const b = x.mod(tenpowhalfn)              // x % tenpowhalfn
+  const c = y.idiv(tenpowhalfn)             // parseInt(y / tenpowhalfn)
+  const d = y.mod(tenpowhalfn)              // y % tenpowhalfn
+
+  // return tenpown * karatsubaMulti1(a, c)
+  // + tenpowhalfn * (
+  //     karatsubaMulti1(a, d) + karatsubaMulti1(b, c)
+  //   )
+  // + karatsubaMulti1(b, d)
+  const p0 = tenpown.times(karatsubaMultiply(a, c))
+  const p1a = new BigNumber(karatsubaMultiply(a, d)).plus(karatsubaMultiply(b, c))
+  const p1 = tenpowhalfn.times(p1a)
+  const p2 = karatsubaMultiply(b, d)
+  const result = p0
+    .plus(p1)
+    .plus(p2)
+
+  return result.toFixed()
+}
+
+
+/** karatsubaMulti1
+  * (by haocong)[https://gist.github.com/haocong/c2d9b2169d28eb15a94d]
+  @param x — - first number
+  @param y — - second number
+  @return — Multiply of x and y
+***/
+export function karatsubaMulti1(_x, _y) {
+  if((''+_x).length + (''+_y).length > 64) throw new Error('Result would be greater than MAX_SAFE_INTEGER')
+  const x = parseInt(_x), y = parseInt(_y)
+
+  let n = Math.min(('' + x).length, ('' + y).length)
   if(n == 1)
       return x * y
 
-  let tenpowhalfn = Math.pow(10, parseInt(n / 2))
-  let tenpown = Math.pow(10, 2 * parseInt(n / 2))
+  let tenpowhalfn = Math.pow(10, parseInt(n / 2)) // Math.floor() is much faster than parseInt
+  let tenpown = Math.pow(10, 2 * parseInt(n / 2)) // Math.floor() is much faster than parseInt
 
   let a = parseInt(x / tenpowhalfn)
   let b = x % tenpowhalfn
@@ -22,13 +87,21 @@ export function karatsubaMulti1(x, y) {
   let d = y % tenpowhalfn
 
   return tenpown * karatsubaMulti1(a, c)
-    + tenpowhalfn * (karatsubaMulti1(a, d)
-    + karatsubaMulti1(b, c))
+    + tenpowhalfn * (
+        karatsubaMulti1(a, d) + karatsubaMulti1(b, c)
+      )
     + karatsubaMulti1(b, d)
 }
 
-export function karatsubaMulti2(x,y) {
-  // https://stackoverflow.com/a/28376023/604950
+/** karatsubaMulti2
+ * (ref)[https://stackoverflow.com/a/28376023/604950]
+ * @param  {} x
+ * @param  {} y
+ */
+export function karatsubaMulti2(_x,_y) {
+  if((''+_x).length + (''+_y).length > 64) throw new Error('Result would be greater than MAX_SAFE_INTEGER')
+  const x = parseInt(_x), y = parseInt(_y)
+
   var x1,x0,y1,y0,base,m;
   base  = 10;
 

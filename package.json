@@ -4,7 +4,7 @@
   "main": "Chapter1/Chapter1.Review.js",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "watch": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "babel-jest": "^23.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "bignumber.js": "7.2.1",
     "jest": "^23.0.0"
   },
   "jest": {
