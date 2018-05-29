@@ -14,10 +14,10 @@ import {BigNumber} from 'bignumber.js';
   @param y — - second number
   @return — Multiply of x and y
 ***/
-let i = 0
+// let i = 0
 export function karatsubaMultiply(_x, _y) {
   // console.log(i, `: Starting karatsubaMultiply(${_x}, ${_y})`)
-  i++
+  // i++
   
   if(_x === 0|| _y === 0) return 0
 
