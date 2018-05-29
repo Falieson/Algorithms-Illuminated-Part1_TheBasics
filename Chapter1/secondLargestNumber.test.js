@@ -40,6 +40,7 @@ describe('secondLargestNumber', () => {
     expect(getNumber).toThrowError(/Maximum/)
   });
 })
+
 describe('yieldSecondLargestNumber', () => {
   test('smallest array', () => {
     const problem = [9, 1]
